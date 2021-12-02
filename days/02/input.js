@@ -7,7 +7,13 @@ function getInput() {
     .toString()
     .trim()
     .split('\n')
-    .map((num) => parseInt(num, 10));
+    .map((value) => {
+      const instruction = value.split(' ');
+      return {
+        instruction: instruction[0],
+        units: parseInt(instruction[1], 10),
+      };
+    });
 }
 
 module.exports = {
