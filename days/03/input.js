@@ -8,11 +8,7 @@ function getInput() {
     .trim()
     .split('\n')
     .map((value) => {
-      const instruction = value.split(' ');
-      return {
-        instruction: instruction[0],
-        units: parseInt(instruction[1], 10),
-      };
+      return parseInt(value, 2);
     });
 }
 
