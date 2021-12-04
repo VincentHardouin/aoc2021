@@ -82,6 +82,10 @@ class Game {
   removeWinner() {
     this.boards = this.boards.filter((board) => !board.verify());
   }
+
+  isFinish() {
+    return this.boards.length === 1;
+  }
 }
 
 function getResult(input = getInput()) {
@@ -89,17 +93,10 @@ function getResult(input = getInput()) {
   const game = new Game(boards);
 
   let currentNumber;
-  for (let i = 0; i < input.drawnNumbers.length; i++) {
-    const number = input.drawnNumbers[i];
-    game.newRound(number);
-    if (!game.haveWinner()) {
-      continue;
-    }
-    if (game.boards.length === 1) {
-      currentNumber = number;
-      break;
-    }
+  while (!game.isFinish()) {
+    currentNumber = input.drawnNumbers.shift();
     game.removeWinner();
+    game.newRound(currentNumber);
   }
 
   const winner = game.getWinner();
