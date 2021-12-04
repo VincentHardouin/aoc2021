@@ -63,12 +63,15 @@ class Board {
 }
 
 class Game {
-  constructor(boards) {
+  constructor(boards, drawnNumbers) {
     this.boards = boards;
+    this.drawnNumbers = drawnNumbers;
+    this.currentNumber = null;
   }
 
-  newRound(number) {
-    this.boards.forEach((board) => board.markNumberIfPresent(number));
+  newRound() {
+    this.currentNumber = this.drawnNumbers.shift();
+    this.boards.forEach((board) => board.markNumberIfPresent(this.currentNumber));
   }
 
   haveWinner() {
@@ -90,17 +93,15 @@ class Game {
 
 function getResult(input = getInput()) {
   let boards = input.boards.map((board) => new Board(board));
-  const game = new Game(boards);
+  const game = new Game(boards, input.drawnNumbers);
 
-  let currentNumber;
   while (!game.isFinish()) {
-    currentNumber = input.drawnNumbers.shift();
     game.removeWinner();
-    game.newRound(currentNumber);
+    game.newRound();
   }
 
   const winner = game.getWinner();
-  return winner.getSumOfUnmarkNumbers() * currentNumber;
+  return winner.getSumOfUnmarkNumbers() * game.currentNumber;
 }
 
 module.exports = {
