@@ -85,13 +85,9 @@ function getResult(input = getInput()) {
   const game = new Game(boards);
 
   let currentNumber;
-  for (let i = 0; i < input.drawnNumbers.length; i++) {
-    const number = input.drawnNumbers[i];
-    game.newRound(number);
-    if (game.haveWinner()) {
-      currentNumber = number;
-      break;
-    }
+  while (!game.haveWinner()) {
+    currentNumber = input.drawnNumbers.shift();
+    game.newRound(currentNumber);
   }
 
   const winner = game.getWinner();
