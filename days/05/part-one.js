@@ -5,11 +5,6 @@ class Point {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.overlap = 1;
-  }
-
-  addOverlap() {
-    this.overlap++;
   }
 
   static getAllPointsBetween({ x1, y1, x2, y2 }) {
@@ -21,6 +16,10 @@ class Point {
       return range.map((x) => new Point(x, y1));
     }
     return [];
+  }
+
+  getKey() {
+    return `${this.x}:${this.y}`;
   }
 }
 
@@ -38,7 +37,7 @@ function getRange(start, end) {
 
 class Grid {
   constructor(lines) {
-    this.points = [];
+    this.points = new Map();
     for (let line of lines) {
       for (let point of line) {
         this.addPoint(point);
@@ -47,16 +46,20 @@ class Grid {
   }
 
   addPoint(newPoint) {
-    const foundPoint = this.points.find((point) => point.x === newPoint.x && point.y === newPoint.y);
+    let foundPoint = this.points.get(newPoint.getKey());
     if (foundPoint) {
-      foundPoint.addOverlap();
+      this.points.set(newPoint.getKey(), ++foundPoint);
     } else {
-      this.points.push(newPoint);
+      this.points.set(newPoint.getKey(), 1);
     }
   }
 
   dangerousAreas() {
-    return this.points.filter((point) => point.overlap > 1).length;
+    let dangerousAreas = 0;
+    for (const value of this.points.values()) {
+      dangerousAreas = value > 1 ? ++dangerousAreas : dangerousAreas;
+    }
+    return dangerousAreas;
   }
 }
 
