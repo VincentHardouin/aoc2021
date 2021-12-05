@@ -8,7 +8,15 @@ function getInput() {
     .trim()
     .split('\n')
     .map((value) => {
-      return value;
+      const points = value.split(' -> ').map((point) => {
+        return point.split(',').map((value) => parseInt(value, 10));
+      });
+      return {
+        x1: points[0][0],
+        y1: points[0][1],
+        x2: points[1][0],
+        y2: points[1][1],
+      };
     });
 }
 
