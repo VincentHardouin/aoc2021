@@ -1,6 +1,6 @@
 const input = require('./input');
 
-describe('day3 | input', () => {
+describe('day{{day}} | input', () => {
   it('should return array of int for each line', () => {
     const result = input.getInput();
 
