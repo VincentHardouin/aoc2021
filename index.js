@@ -34,7 +34,9 @@ function getArgv() {
 function getDayResult(day, part) {
   const dayPath = path.join(__dirname, './days', days[day - 1]);
   const dayModule = require(dayPath);
+  console.time('t');
   console.log(`Day: ${day}, Part: ${part}, Result: ${dayModule[part - 1]()}`);
+  console.timeEnd('t');
 }
 
 function main() {
