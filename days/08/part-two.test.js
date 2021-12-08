@@ -25,7 +25,7 @@ describe('day08 | part-two', () => {
         const digit = new Digit('dab');
         const result = digit.getCommonPart(new Digit('ab'));
 
-        expect(result).toStrictEqual(['a', 'b']);
+        expect(result.segments).toStrictEqual(['a', 'b']);
       });
     });
 
@@ -34,7 +34,7 @@ describe('day08 | part-two', () => {
         const digit = new Digit('dab');
         const result = digit.getDifference(new Digit('ab'));
 
-        expect(result).toStrictEqual(['d']);
+        expect(result.segments).toStrictEqual(['d']);
       });
     });
   });

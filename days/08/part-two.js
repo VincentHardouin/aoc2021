@@ -9,21 +9,25 @@ const EASY_DIGIT = [
 ];
 
 const NORMAL_SEGMENTS = [
-  { digit: 0, segments: 'abcefg', length: 6 },
-  { digit: 1, segments: 'cf', length: 2 },
-  { digit: 2, segments: 'acdeg', length: 6 },
-  { digit: 3, segments: 'acdfg', length: 5 },
-  { digit: 4, segments: 'bcdf', length: 4 },
-  { digit: 5, segments: 'abdfg', length: 5 },
-  { digit: 6, segments: 'abdefg', length: 6 },
-  { digit: 7, segments: 'acf', length: 3 },
-  { digit: 8, segments: 'abcdefg', length: 7 },
-  { digit: 9, segments: 'abcdfg', length: 6 },
+  { digit: 0, segments: 'abcefg' },
+  { digit: 1, segments: 'cf' },
+  { digit: 2, segments: 'acdeg' },
+  { digit: 3, segments: 'acdfg' },
+  { digit: 4, segments: 'bcdf' },
+  { digit: 5, segments: 'abdfg' },
+  { digit: 6, segments: 'abdefg' },
+  { digit: 7, segments: 'acf' },
+  { digit: 8, segments: 'abcdefg' },
+  { digit: 9, segments: 'abcdfg' },
 ];
 
 class Digit {
   constructor(digit) {
-    this.digit = digit;
+    if (digit instanceof Array) {
+      this.digit = digit.join('');
+    } else {
+      this.digit = digit;
+    }
   }
 
   isEasyDigit() {
@@ -39,12 +43,17 @@ class Digit {
     return this.digit.split('');
   }
 
+  get length() {
+    return this.segments.length;
+  }
+
   getCommonPart(digit) {
-    return this.segments.filter((segment) => digit.segments.includes(segment));
+    return new Digit(this.segments.filter((segment) => digit.segments.includes(segment)));
   }
 
   getDifference(digit) {
-    return this.segments.filter((segment) => !digit.segments.includes(segment));
+    const difference = this.segments.filter((segment) => !digit.segments.includes(segment));
+    return new Digit(difference);
   }
 }
 
@@ -84,25 +93,20 @@ class SevenSegments {
   static createSegmentFromSignalPattern(signalPattern) {
     const digits = signalPattern.map((digit) => new Digit(digit));
     const easyDigitInSignalPatterns = digits.filter((signal) => signal.isEasyDigit());
-    const one = easyDigitInSignalPatterns.find((digit) => digit.segments.length === 2);
-    const four = easyDigitInSignalPatterns.find((digit) => digit.segments.length === 4);
-    const seven = easyDigitInSignalPatterns.find((digit) => digit.segments.length === 3);
+    const one = easyDigitInSignalPatterns.find((digit) => digit.length === 2);
+    const four = easyDigitInSignalPatterns.find((digit) => digit.length === 4);
+    const seven = easyDigitInSignalPatterns.find((digit) => digit.length === 3);
 
-    const sixSegments = digits.filter((digit) => digit.segments.length === 6);
-    const fiveSegments = digits.filter((digit) => digit.segments.length === 5);
-    const six = sixSegments.find((digit) => digit.getCommonPart(one).length === 1);
-    const three = fiveSegments.find((digit) => digit.getCommonPart(one).length === 2);
+    const six = digits.find((digit) => digit.length === 6 && digit.getCommonPart(one).length === 1);
+    const three = digits.find((digit) => digit.length === 5 && digit.getCommonPart(one).length === 2);
 
-    const commonBetweenThreeAndFour = four.getCommonPart(three);
-    const differenceBetweenThreeAndFour = three.getDifference(four);
-
-    const a = seven.segments.find((segment) => !one.segments.find((s) => s === segment));
-    const b = four.getDifference(three)[0];
-    const c = one.getDifference(six)[0];
-    const d = new Digit(commonBetweenThreeAndFour.join('')).getDifference(one)[0];
-    const e = new Digit(six.getDifference(three).join('')).getDifference(four)[0];
-    const f = six.getCommonPart(one)[0];
-    const g = new Digit(differenceBetweenThreeAndFour.join('')).getDifference(seven)[0];
+    const a = seven.getDifference(one).segments[0];
+    const b = four.getDifference(three).segments[0];
+    const c = one.getDifference(six).segments[0];
+    const d = four.getCommonPart(three).getDifference(one).segments[0];
+    const e = six.getDifference(three).getDifference(four).segments[0];
+    const f = six.getCommonPart(one).segments[0];
+    const g = three.getDifference(four).getDifference(seven).segments[0];
 
     return new SevenSegments({ a, b, c, d, e, f, g });
   }
