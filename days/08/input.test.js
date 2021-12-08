@@ -5,7 +5,7 @@ describe('day08 | input', () => {
     const result = input.getInput();
 
     expect(result[0]).toStrictEqual({
-      uniqSignalPattern: 'fcdeba edcbag decab adcefg acdfb gdcfb acf fabe fa eacfgbd',
+      uniqSignalPattern: ['fcdeba', 'edcbag', 'decab', 'adcefg', 'acdfb', 'gdcfb', 'acf', 'fabe', 'fa', 'eacfgbd'],
       fourDigitOutput: ['aefb', 'cfa', 'acf', 'cdabf'],
     });
   });

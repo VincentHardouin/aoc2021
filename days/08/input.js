@@ -10,7 +10,7 @@ function getInput() {
     .map((value) => {
       const entry = value.split('|');
       return {
-        uniqSignalPattern: entry[0].trim(),
+        uniqSignalPattern: entry[0].trim().split(' '),
         fourDigitOutput: entry[1].trim().split(' '),
       };
     });
