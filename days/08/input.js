@@ -8,7 +8,11 @@ function getInput() {
     .trim()
     .split('\n')
     .map((value) => {
-      return value;
+      const entry = value.split('|');
+      return {
+        uniqSignalPattern: entry[0].trim(),
+        fourDigitOutput: entry[1].trim().split(' '),
+      };
     });
 }
 
