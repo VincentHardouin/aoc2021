@@ -7,8 +7,8 @@ function getInput() {
     .toString()
     .trim()
     .split('\n')
-    .map((value) => {
-      return value;
+    .map((line) => {
+      return line.split('').map((number) => parseInt(number, 10));
     });
 }
 
