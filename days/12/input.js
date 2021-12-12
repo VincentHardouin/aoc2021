@@ -8,7 +8,7 @@ function getInput() {
     .trim()
     .split('\n')
     .map((value) => {
-      return value;
+      return value.split('-');
     });
 }
 
