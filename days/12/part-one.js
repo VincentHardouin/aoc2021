@@ -20,7 +20,7 @@ class Segment {
 
   getSmallCaves() {
     const smallCaves = [];
-    const regex = /[a-z]{2}/;
+    const regex = /[a-z]/;
     if (regex.test(this.a) && this.a !== 'start' && this.a !== 'end') {
       smallCaves.push(this.a);
     }
@@ -41,14 +41,11 @@ class Path {
   }
 
   getLastCave() {
-    if (this.path.length === 1) {
-      return this.path[0].getOtherCave('start');
+    let otherCave = this.path[0].getOtherCave('start');
+    for (let i = 1; i < this.path.length; i++) {
+      otherCave = this.path[i].getOtherCave(otherCave);
     }
-
-    const lastSegment = this.path[this.path.length - 1];
-    const beforeLastSegment = this.path[this.path.length - 2];
-
-    return lastSegment.getNonCommonCave(beforeLastSegment);
+    return otherCave;
   }
 
   getSmallCaves() {
