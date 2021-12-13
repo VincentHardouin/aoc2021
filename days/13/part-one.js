@@ -13,6 +13,11 @@ class Point {
   distance(x, y) {
     return Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
   }
+
+  symmetryFrom(direction, value) {
+    const distance = direction === 'x' ? this.distance(value, this.y) : this.distance(this.x, value);
+    this[direction] = this[direction] - 2 * distance;
+  }
 }
 
 class Paper {
@@ -25,13 +30,10 @@ class Paper {
     const newPoints = new Map();
     for (const [key, point] of this.points) {
       if (point[direction] > value) {
-        const distance = direction === 'x' ? point.distance(value, point.y) : point.distance(point.x, value);
-        point[direction] = point[direction] - 2 * distance;
-        if (!newPoints.has(point.key)) {
-          newPoints.set(point.key, point);
-        }
-      } else {
-        newPoints.set(key, point);
+        point.symmetryFrom(direction, value);
+      }
+      if (!newPoints.has(point.key)) {
+        newPoints.set(point.key, point);
       }
     }
     this.points = newPoints;
