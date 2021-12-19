@@ -3,9 +3,16 @@ const partTwo = require('./part-two');
 describe('day17 | part-two', () => {
   describe('#getResult', () => {
     it('should ', () => {
-      const result = partTwo.getResult();
+      const input = {
+        minX: 20,
+        maxX: 30,
+        minY: -10,
+        maxY: -5,
+      };
 
-      expect(result).toBe();
+      const result = partTwo.getResult(input);
+
+      expect(result).toBe(112);
     });
   });
 });
