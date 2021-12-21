@@ -8,7 +8,12 @@ function getInput() {
     .trim()
     .split('\n')
     .map((value) => {
-      return value;
+      const player = value.split(' starting position: ');
+
+      return {
+        name: player[0],
+        position: parseInt(player[1], 10),
+      };
     });
 }
 
